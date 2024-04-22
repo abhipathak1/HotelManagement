@@ -4,6 +4,7 @@ import com.hotel.HotelManagementSystem.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 @Repository
 public class BookingRepository {
@@ -23,8 +24,9 @@ public class BookingRepository {
         return rowsAffected > 0;
     }
 
-//    public Booking getBookingDetails(Long bookingId) {
-//        String sql = "SELECT * FROM bookings WHERE id = ?";
-//        return jdbcTemplate.queryForObject(sql, new Object[]{bookingId}, new BookingRowMapper());
-//    }
+    public Booking getBookingDetails(Long bookingId) {
+        String sql = "SELECT * FROM bookings WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{bookingId}, BeanPropertyRowMapper.newInstance(Booking.class));
+    }
+
 }

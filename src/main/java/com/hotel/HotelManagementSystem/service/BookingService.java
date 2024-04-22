@@ -21,7 +21,7 @@ public class BookingService {
         return bookingRepository.cancelBooking(bookingId);
     }
 
-//    public Booking getBookingDetails(Long bookingId) {
-//        return bookingRepository.getBookingDetails(bookingId);
-//    }
+    public Booking getBookingDetails(Long bookingId) {
+        return bookingRepository.getBookingDetails(bookingId);
+    }
 }

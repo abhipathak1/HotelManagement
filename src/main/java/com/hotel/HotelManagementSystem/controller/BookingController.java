@@ -2,6 +2,7 @@ package com.hotel.HotelManagementSystem.controller;
 
 import com.hotel.HotelManagementSystem.model.Booking;
 import com.hotel.HotelManagementSystem.model.BookingRequest;
+//import com.hotel.HotelManagementSystem.repository.RedisBookingRepository;
 import com.hotel.HotelManagementSystem.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class BookingController {
     @Autowired
     private BookingService bookingService;
-
 
     @PostMapping("/book")
     public ResponseEntity<String> bookRoom(@RequestBody Booking booking) {
@@ -34,13 +34,13 @@ public class BookingController {
         }
     }
 
-//    @GetMapping("/{bookingId}")
-//    public ResponseEntity<Booking> getBookingDetails(@PathVariable Long bookingId) {
-//        Booking booking = bookingService.getBookingDetails(bookingId);
-//        if (booking != null) {
-//            return ResponseEntity.ok(booking);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+    @GetMapping("/{bookingId}")
+    public ResponseEntity<Booking> getBookingDetails(@PathVariable Long bookingId) {
+        Booking booking = bookingService.getBookingDetails(bookingId);
+        if (booking != null) {
+            return ResponseEntity.ok(booking);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

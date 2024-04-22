@@ -13,10 +13,11 @@ public class RoomRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-//    public List<Room> getAllRooms() {
-//        String sql = "SELECT * FROM rooms";
-//        return jdbcTemplate.query(sql, new RoomRowMapper());
-//    }
+    public List<Room> getAllRooms() {
+        String sql = "SELECT * FROM rooms";
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Room.class));
+    }
+
 
     public boolean addRoom(Room room) {
         String sql = "INSERT INTO rooms (room_number, available) VALUES (?, ?)";
