@@ -1,19 +1,18 @@
 package com.hotel.HotelManagementSystem.service;
 import com.hotel.HotelManagementSystem.model.Room;
-//import com.hotel.HotelManagementSystem.repository.RedisRoomRepository;
 import com.hotel.HotelManagementSystem.repository.RoomRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RoomService {
+@ConditionalOnProperty(name ="db_flag", havingValue = "mysql")
+public class RoomService implements RoomServiceInterface {
     @Autowired
     private RoomRepository roomRepository;
-
-
 
     public List<Room> getAllRooms() {
         return roomRepository.getAllRooms();

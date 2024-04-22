@@ -1,15 +1,15 @@
 package com.hotel.HotelManagementSystem.service;
 
 import com.hotel.HotelManagementSystem.model.Booking;
-import com.hotel.HotelManagementSystem.model.Room;
 import com.hotel.HotelManagementSystem.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import com.hotel.HotelManagementSystem.model.BookingRequest;
 
 
 @Service
-public class BookingService {
+@ConditionalOnProperty(name ="db_flag", havingValue = "mysql")
+public class BookingService implements BookingServiceInterface {
     @Autowired
     private BookingRepository bookingRepository;
 

@@ -1,9 +1,9 @@
 package com.hotel.HotelManagementSystem.controller;
 
 import com.hotel.HotelManagementSystem.model.Booking;
-import com.hotel.HotelManagementSystem.model.BookingRequest;
 //import com.hotel.HotelManagementSystem.repository.RedisBookingRepository;
 import com.hotel.HotelManagementSystem.service.BookingService;
+import com.hotel.HotelManagementSystem.service.BookingServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/bookings")
 public class BookingController {
-    @Autowired
-    private BookingService bookingService;
+
+    private  BookingServiceInterface bookingService;
+
+    public BookingController(BookingServiceInterface bookingService) {
+        this.bookingService = bookingService;
+    }
+//    @Autowired
+//    private BookingService bookingService;
 
     @PostMapping("/book")
     public ResponseEntity<String> bookRoom(@RequestBody Booking booking) {
@@ -24,7 +30,7 @@ public class BookingController {
         }
     }
 
-    @DeleteMapping("/cancel/{bookingId}")
+    @DeleteMapping("/{bookingId}")
     public ResponseEntity<String> cancelBooking(@PathVariable Long bookingId) {
         boolean success = bookingService.cancelBooking(bookingId);
         if (success) {
