@@ -1,7 +1,6 @@
 package com.hotel.HotelManagementSystem.controller;
 
 import com.hotel.HotelManagementSystem.model.Booking;
-import com.hotel.HotelManagementSystem.model.BookingRequest;
 //import com.hotel.HotelManagementSystem.repository.RedisBookingRepository;
 import com.hotel.HotelManagementSystem.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;

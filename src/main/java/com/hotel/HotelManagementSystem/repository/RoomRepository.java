@@ -25,6 +25,12 @@ public class RoomRepository {
         return rowsAffected > 0;
     }
 
+    public boolean existsByRoomNumber(String roomNumber) {
+        String sql = "SELECT COUNT(*) FROM rooms WHERE room_number = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, roomNumber);
+        return count > 0;
+    }
+
     public boolean removeRoom(Long roomId) {
         String sql = "DELETE FROM rooms WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, roomId);

@@ -5,29 +5,29 @@ import com.hotel.HotelManagementSystem.repository.RedisBookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 @Service
-@ConditionalOnProperty(name = "db_flag", havingValue = "mysql")
+@ConditionalOnProperty(name ="db_flag", havingValue = "redis")
 public class RedisBookingService {
+
+    @Autowired
+    private Jedis jedis;
 
 
     @Autowired
-    private RedisBookingRepository redisBookingRepository;
+    private RedisBookingRepository bookingRepository;
 
     public boolean bookRoom(Booking booking) {
-        redisBookingRepository.save(booking);
-        return true;
+        return bookingRepository.bookRoom(booking);
     }
 
     public boolean cancelBooking(Long bookingId) {
-        if (redisBookingRepository.existsById(bookingId)) {
-            redisBookingRepository.deleteById(bookingId);
-            return true;
-        }
-        return false;
+        return bookingRepository.cancelBooking(bookingId);
     }
 
     public Booking getBookingDetails(Long bookingId) {
-        return redisBookingRepository.findById(bookingId).orElse(null);
+        return bookingRepository.getBookingDetails(bookingId);
     }
+
 }
