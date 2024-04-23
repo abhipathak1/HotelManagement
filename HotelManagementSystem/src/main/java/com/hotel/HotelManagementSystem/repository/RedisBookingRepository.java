@@ -20,7 +20,7 @@ public class RedisBookingRepository{
     }
 
     public boolean cancelBooking(Long bookingId) {
-        String bookingKey = "room:" + bookingId;
+        String bookingKey = "booking:" + bookingId;
         if (jedis.exists(bookingKey)) {
             jedis.del(bookingKey);
             return true;
@@ -30,7 +30,7 @@ public class RedisBookingRepository{
     }
 
     public Booking getBookingDetails(Long bookingId) {
-        String bookingKey = "room:" + bookingId;
+        String bookingKey = "booking:" + bookingId;
         if (jedis.exists(bookingKey)) {
             String roomId = jedis.hget(bookingKey, "roomId");
             String guestName = jedis.hget(bookingKey, "guestName");

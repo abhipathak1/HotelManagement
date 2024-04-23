@@ -25,11 +25,11 @@ public class RoomController {
 //    @Autowired
 //    private RoomService roomService;
 
-//    @GetMapping("/all")
-//    public ResponseEntity<List<Room>> getAllRooms() {
-//        List<Room> rooms = roomService.getAllRooms();
-//        return ResponseEntity.ok(rooms);
-//    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Room>> getAllRooms() {
+        List<Room> rooms = roomService.getAllRooms();
+        return ResponseEntity.ok(rooms);
+    }
 
     @PostMapping("/add")
     public ResponseEntity<String> addRoom(@RequestBody Room room) {
