@@ -17,16 +17,15 @@ public class BookingController {
     public BookingController(BookingServiceInterface bookingService) {
         this.bookingService = bookingService;
     }
-//    @Autowired
-//    private BookingService bookingService;
 
-    @PostMapping("/book")
+
+    @PostMapping("")
     public ResponseEntity<String> bookRoom(@RequestBody Booking booking) {
         boolean success = bookingService.bookRoom(booking);
         if (success) {
             return ResponseEntity.ok("Room booked successfully");
         } else {
-            return ResponseEntity.badRequest().body("Failed to book room");
+            return ResponseEntity.badRequest().body("Failed to book room or room is not available");
         }
     }
 

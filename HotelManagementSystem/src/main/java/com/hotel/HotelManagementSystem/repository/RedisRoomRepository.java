@@ -39,6 +39,28 @@ public class RedisRoomRepository{
         }
     }
 
+    public  Room getRoomById(Long roomId) {
+        String roomKey = "room:" + roomId;
+        if (jedis.exists(roomKey)) {
+            Map<String, String> roomMap = jedis.hgetAll(roomKey);
+            Room room = new Room();
+            room.setRoomNumber(roomMap.get("roomNumber"));
+            room.setId(Long.parseLong(roomMap.get("id")));
+            room.setAvailable(Boolean.parseBoolean(roomMap.get("available")));
+            return room;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean updateRoom(Room room) {
+        String roomKey = "room:" + room.getId();
+        jedis.hset(roomKey, "id", String.valueOf(room.getId()));
+        jedis.hset(roomKey, "roomNumber", room.getRoomNumber());
+        jedis.hset(roomKey, "available", String.valueOf(room.isAvailable()));
+        return true;
+    }
+
 
     public List<Room> getAllRooms() {
 

@@ -2,6 +2,7 @@ package com.hotel.HotelManagementSystem.repository;
 
 import com.hotel.HotelManagementSystem.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -36,4 +37,21 @@ public class RoomRepository {
         int rowsAffected = jdbcTemplate.update(sql, roomId);
         return rowsAffected > 0;
     }
+
+    public Room getRoomById(Long roomId) {
+        String sql = "SELECT * FROM rooms WHERE id = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{roomId}, BeanPropertyRowMapper.newInstance(Room.class));
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
+    }
+
+
+    public boolean updateRoom(Room room) {
+        String sql = "UPDATE rooms SET room_number = ?, available = ? WHERE id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, room.getRoomNumber(), room.isAvailable(), room.getId());
+        return rowsAffected > 0;
+    }
+
 }

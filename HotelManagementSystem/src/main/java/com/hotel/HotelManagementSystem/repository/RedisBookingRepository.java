@@ -12,12 +12,29 @@ public class RedisBookingRepository{
     @Autowired
     private Jedis jedis;
 
+    @Autowired
+    private RedisRoomRepository redisRoomRepository;
+
+//    public boolean bookRoom(Booking booking) {
+//        String bookingKey = "booking:" + booking.getId();
+//        jedis.hset(bookingKey, "roomId", String.valueOf(booking.getRoom().getId()));
+//        jedis.hset(bookingKey, "guestName", booking.getGuestName());
+//        return true;
+//    }
+
     public boolean bookRoom(Booking booking) {
-        String bookingKey = "booking:" + booking.getId();
-        jedis.hset(bookingKey, "roomId", String.valueOf(booking.getRoom().getId()));
-        jedis.hset(bookingKey, "guestName", booking.getGuestName());
-        return true;
+        Room room = redisRoomRepository.getRoomById(booking.getRoom().getId());
+        if (room != null && room.isAvailable()) {
+            String bookingKey = "booking:" + booking.getId();
+            jedis.hset(bookingKey, "roomId", String.valueOf(booking.getRoom().getId()));
+            jedis.hset(bookingKey, "guestName", booking.getGuestName());
+            room.setAvailable(false);
+            redisRoomRepository.updateRoom(room);
+            return true;
+        }
+        return false;
     }
+
 
     public boolean cancelBooking(Long bookingId) {
         String bookingKey = "booking:" + bookingId;
@@ -39,5 +56,13 @@ public class RedisBookingRepository{
         } else {
             return null;
         }
+    }
+
+    public void incrementTotalRoomsBooked() {
+        jedis.hincrBy("count_add_cancel","booking_Count",1);
+    }
+
+    public void incrementTotalRoomsCancelled() {
+        jedis.hincrBy("count_add_cancel","cancel_count",1);
     }
 }
